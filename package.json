@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "frontend": "npm --prefix ./frontend run dev",
+    "backend": "npm --prefix ./backend run dev",
+    "start": "concurrently \"nodemon run backend\"  \"npm run frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
