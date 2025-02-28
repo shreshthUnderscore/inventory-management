@@ -7,6 +7,7 @@ app.use(express.json());
 app.use(cors());
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
 
 const { User } = require("./model/model");
 
@@ -14,8 +15,17 @@ const PORT = 5000;
 
 const mainRouter = require("./router/mainRouter");
 const authRouter = require("./router/authRouter");
-
-app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(
+  session({
+    secret: "cats", // Use an environment variable for the secret
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      httpOnly: true, // Prevents client-side access to cookies
+    },
+  })
+);
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
